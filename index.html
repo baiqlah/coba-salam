@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="theme-color" content="#2F3185" id="metaThemeColor" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SALAM PHNS" />
+  <meta name="description" content="SPA-PWA Dashboard Aspirasi & Layanan Fasilitas Pondok Hajjah Nuriyah Shabran UMS" />
+  <title>SALAM PHNS — Dashboard Aspirasi Android PWA</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Material Symbols Rounded untuk nuansa Android Material You -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            ums: {
+              blue: '#2F3185',
+              gold: '#FFB800',
+              teal: '#1CBDB3',
+              white: '#FFFFFF',
+              gray: '#64748B',
+            },
+            m3: {
+              primary: 'var(--md-primary)',
+              onPrimary: 'var(--md-on-primary)',
+              primaryContainer: 'var(--md-primary-container)',
+              onPrimaryContainer: 'var(--md-on-primary-container)',
+              secondary: 'var(--md-secondary)',
+              secondaryContainer: 'var(--md-secondary-container)',
+              onSecondaryContainer: 'var(--md-on-secondary-container)',
+              tertiary: 'var(--md-tertiary)',
+              tertiaryContainer: 'var(--md-tertiary-container)',
+              onTertiaryContainer: 'var(--md-on-tertiary-container)',
+              surface: 'var(--md-surface)',
+              surfaceContainerLow: 'var(--md-surface-container-low)',
+              surfaceContainer: 'var(--md-surface-container)',
+              surfaceContainerHigh: 'var(--md-surface-container-high)',
+              onSurface: 'var(--md-on-surface)',
+              onSurfaceVariant: 'var(--md-on-surface-variant)',
+              outline: 'var(--md-outline)',
+              outlineVariant: 'var(--md-outline-variant)',
+            }
+          },
+          boxShadow: {
+            'm3-1': '0 1px 2px rgba(47,49,133,0.06), 0 1px 3px 1px rgba(15,23,42,0.04)',
+            'm3-2': '0 2px 6px 2px rgba(47,49,133,0.08), 0 1px 2px rgba(15,23,42,0.06)',
+            'm3-3': '0 6px 16px 3px rgba(47,49,133,0.12), 0 2px 4px rgba(15,23,42,0.08)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Token Warna Android Material You — Identitas Resmi UMS (#2F3185, #FFB800, #1CBDB3, #FFFFFF & Abu-abu) */
+    :root {
+      --md-primary: #2F3185;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #E2E4FF;
+      --md-on-primary-container: #141654;
+      --md-secondary: #1CBDB3;
+      --md-secondary-container: #D2F7F4;
+      --md-on-secondary-container: #003834;
+      --md-tertiary: #FFB800;
+      --md-tertiary-container: #FFF0C2;
+      --md-on-tertiary-container: #3D2900;
+      --md-surface: #F4F5F8;
+      --md-surface-container-low: #FFFFFF;
+      --md-surface-container: #ECEEF3;
+      --md-surface-container-high: #E2E5ED;
+      --md-on-surface: #1A1C29;
+      --md-on-surface-variant: #575B6E;
+      --md-outline: #7C8196;
+      --md-outline-variant: #D5D8E2;
+    }
+
+    /* Variasi Aksen Tosca Shabran (#1CBDB3) */
+    [data-accent="teal"] {
+      --md-primary: #1CBDB3;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #CCF7F3;
+      --md-on-primary-container: #003734;
+      --md-secondary-container: #E2E4FF;
+      --md-on-secondary-container: #141654;
+    }
+
+    /* Variasi Aksen Emas UMS (#FFB800) */
+    [data-accent="gold"] {
+      --md-primary: #B88200;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #FFF0C2;
+      --md-on-primary-container: #3D2900;
+      --md-secondary-container: #E2E4FF;
+      --md-on-secondary-container: #141654;
+    }
+
+    /* Mode Gelap Android Material 3 — Palet UMS */
+    html.dark {
+      --md-primary: #B8BCFF;
+      --md-on-primary: #171962;
+      --md-primary-container: #2F3185;
+      --md-on-primary-container: #E6E7FF;
+      --md-secondary: #1CBDB3;
+      --md-secondary-container: #0F4E4A;
+      --md-on-secondary-container: #C9F8F4;
+      --md-tertiary: #FFB800;
+      --md-tertiary-container: #4D3600;
+      --md-on-tertiary-container: #FFE69C;
+      --md-surface: #11131B;
+      --md-surface-container-low: #181B26;
+      --md-surface-container: #202432;
+      --md-surface-container-high: #2A2F40;
+      --md-on-surface: #F1F2F8;
+      --md-on-surface-variant: #B3B7C9;
+      --md-outline: #83889C;
+      --md-outline-variant: #34394B;
+    }
+
+    html.dark[data-accent="teal"] {
+      --md-primary: #4CE0D6;
+      --md-on-primary: #003734;
+      --md-primary-container: #0E544F;
+      --md-on-primary-container: #CCF7F3;
+      --md-secondary-container: #2F3185;
+      --md-on-secondary-container: #E2E4FF;
+    }
+
+    html.dark[data-accent="gold"] {
+      --md-primary: #FFD15C;
+      --md-on-primary: #3D2900;
+      --md-primary-container: #5C4000;
+      --md-on-primary-container: #FFF0C2;
+      --md-secondary-container: #2F3185;
+      --md-on-secondary-container: #E2E4FF;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--md-surface);
+      color: var(--md-on-surface);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .material-symbols-rounded {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      user-select: none;
+      vertical-align: middle;
+    }
+
+    .material-symbols-rounded.filled {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* Sembunyikan scrollbar horizontal pada chip row ala Android */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Efek tekan skala ala Android Material Ripple / State Layer */
+    .m3-press {
+      transition: transform 0.14s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease;
+    }
+    .m3-press:active {
+      transform: scale(0.97);
+    }
+
+    /* Animasi Transisi Halaman SPA */
+    .spa-view {
+      animation: fadeSlideUp 0.24s cubic-bezier(0.2, 0, 0, 1);
+    }
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Animasi Bottom Sheet Android */
+    .bottom-sheet-backdrop {
+      transition: opacity 0.25s ease;
+    }
+    .bottom-sheet-panel {
+      transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row selection:bg-m3-primaryContainer selection:text-m3-onPrimaryContainer">
+
+  <!-- ===================================================================== -->
+  <!-- ANDROID TABLET/DESKTOP NAVIGATION RAIL (Tampil pada layar >= md)       -->
+  <!-- ===================================================================== -->
+  <aside class="hidden md:flex md:flex-col md:w-24 lg:w-64 md:fixed md:inset-y-0 md:left-0 bg-m3-surfaceContainerLow border-r border-m3-outlineVariant/40 z-30 px-3 py-5 justify-between">
+    <div class="flex flex-col gap-6">
+      <!-- App Brand Header -->
+      <div class="flex items-center gap-3 px-2">
+        <div class="w-11 h-11 rounded-2xl bg-m3-primary text-m3-onPrimary flex items-center justify-center shadow-m3-1 shrink-0">
+          <span class="material-symbols-rounded filled text-2xl">mosque</span>
+        </div>
+        <div class="hidden lg:block overflow-hidden">
+          <h1 class="font-extrabold text-base tracking-tight leading-tight">SALAM PHNS</h1>
+          <p class="text-xs text-m3-onSurfaceVariant truncate">Aspirasi & Layanan UMS</p>
+        </div>
+      </div>
+
+      <!-- Primary FAB pada Navigation Rail -->
+      <button onclick="switchTab('aspirasi')" class="m3-press flex items-center justify-center lg:justify-start gap-3 bg-m3-primaryContainer text-m3-onPrimaryContainer hover:brightness-95 font-semibold rounded-2xl p-3.5 lg:px-4 shadow-m3-1">
+        <span class="material-symbols-rounded text-2xl">edit_square</span>
+        <span class="hidden lg:inline text-sm">Kirim Aspirasi</span>
+      </button>
+
+      <!-- Menu Navigasi SPA -->
+      <nav class="flex flex-col gap-1.5" aria-label="Navigasi Utama">
+        <button onclick="switchTab('beranda')" data-nav="beranda" class="nav-rail-btn group flex flex-col lg:flex-row items-center gap-1 lg:gap-3.5 px-2 lg:px-4 py-2.5 lg:py-3 rounded-full text-xs lg:text-sm font-semibold transition-all">
+          <span class="nav-pill-icon w-12 lg:w-auto h-8 lg:h-auto rounded-full flex items-center justify-center transition-colors">
+            <span class="material-symbols-rounded text-[22px]">dashboard</span>
+          </span>
+          <span>Beranda</span>
+        </button>
+
+        <button onclick="switchTab('aspirasi')" data-nav="aspirasi" class="nav-rail-btn group flex flex-col lg:flex-row items-center gap-1 lg:gap-3.5 px-2 lg:px-4 py-2.5 lg:py-3 rounded-full text-xs lg:text-sm font-semibold transition-all">
+          <span class="nav-pill-icon w-12 lg:w-auto h-8 lg:h-auto rounded-full flex items-center justify-center transition-colors">
+            <span class="material-symbols-rounded text-[22px]">campaign</span>
+          </span>
+          <span>Aspirasi</span>
+        </button>
+
+        <button onclick="switchTab('laporan')" data-nav="laporan" class="nav-rail-btn group flex flex-col lg:flex-row items-center gap-1 lg:gap-3.5 px-2 lg:px-4 py-2.5 lg:py-3 rounded-full text-xs lg:text-sm font-semibold transition-all">
+          <span class="nav-pill-icon w-12 lg:w-auto h-8 lg:h-auto rounded-full flex items-center justify-center transition-colors relative">
+            <span class="material-symbols-rounded text-[22px]">inbox</span>
+            <span id="railBadgeCount" class="lg:hidden absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-bold px-1.5 rounded-full">4</span>
+          </span>
+          <span class="flex-1 text-left">Laporan</span>
+          <span id="railBadgeCountLg" class="hidden lg:inline-flex bg-m3-primary text-m3-onPrimary text-xs font-bold px-2 py-0.5 rounded-full">4</span>
+        </button>
+
+        <button onclick="switchTab('tindaklanjut')" data-nav="tindaklanjut" class="nav-rail-btn group flex flex-col lg:flex-row items-center gap-1 lg:gap-3.5 px-2 lg:px-4 py-2.5 lg:py-3 rounded-full text-xs lg:text-sm font-semibold transition-all">
+          <span class="nav-pill-icon w-12 lg:w-auto h-8 lg:h-auto rounded-full flex items-center justify-center transition-colors">
+            <span class="material-symbols-rounded text-[22px]">fact_check</span>
+          </span>
+          <span>Prioritas</span>
+        </button>
+
+        <button onclick="switchTab('pengaturan')" data-nav="pengaturan" class="nav-rail-btn group flex flex-col lg:flex-row items-center gap-1 lg:gap-3.5 px-2 lg:px-4 py-2.5 lg:py-3 rounded-full text-xs lg:text-sm font-semibold transition-all">
+          <span class="nav-pill-icon w-12 lg:w-auto h-8 lg:h-auto rounded-full flex items-center justify-center transition-colors">
+            <span class="material-symbols-rounded text-[22px]">install_mobile</span>
+          </span>
+          <span>PWA & Sync</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Controls pada Rail -->
+    <div class="flex flex-col gap-2 items-center lg:items-stretch">
+      <button onclick="toggleDarkMode()" class="m3-press flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-2xl bg-m3-surfaceContainer text-m3-onSurfaceVariant hover:text-m3-onSurface text-xs font-semibold">
+        <span id="railThemeIcon" class="material-symbols-rounded text-xl">dark_mode</span>
+        <span class="hidden lg:inline" id="railThemeLabel">Mode Gelap</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN ANDROID APP SHELL CONTENT                                        -->
+  <!-- ===================================================================== -->
+  <div class="flex-1 flex flex-col md:pl-24 lg:pl-64 pb-24 md:pb-8 min-h-screen w-full max-w-full">
+
+    <!-- Top Android App Bar (Sticky dengan efek kaca Material 3) -->
+    <header class="sticky top-0 z-20 bg-m3-surface/90 backdrop-blur-md border-b border-m3-outlineVariant/30 px-4 sm:px-6 py-3">
+      <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+        <!-- Kiri: Logo Mobile & Judul Halaman -->
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="md:hidden w-10 h-10 rounded-2xl bg-m3-primary text-m3-onPrimary flex items-center justify-center shadow-m3-1 shrink-0">
+            <span class="material-symbols-rounded filled text-xl">mosque</span>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h2 id="topBarTitle" class="font-bold text-lg sm:text-xl tracking-tight truncate">SALAM PHNS</h2>
+              <span id="offlineIndicator" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#1CBDB3]/15 text-[#0E7C75] dark:text-[#4CE0D6] border border-[#1CBDB3]/30">
+                <span id="livePulseDot" class="w-1.5 h-1.5 rounded-full bg-[#1CBDB3] animate-pulse"></span>
+                <span id="liveStatusText">Live Sync • 20d</span>
+              </span>
+            </div>
+            <p id="topBarSubtitle" class="text-xs text-m3-onSurfaceVariant truncate">Pondok Hajjah Nuriyah Shabran • UMS</p>
+          </div>
+        </div>
+
+        <!-- Kanan: Tombol Aksi Android Top Bar -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <!-- Tombol Install PWA (muncul dinamis atau trigger panduan install) -->
+          <button id="installPwaBtn" onclick="triggerPwaInstall()" class="m3-press inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-m3-primaryContainer text-m3-onPrimaryContainer text-xs font-bold shadow-m3-1" title="Pasang Aplikasi ke Layar Utama">
+            <span class="material-symbols-rounded text-lg">download_for_offline</span>
+            <span class="hidden sm:inline">Pasang App</span>
+          </button>
+
+          <!-- Tombol Sync Google Sheet -->
+          <button onclick="syncFromGoogleSheet()" id="syncBtn" class="m3-press w-10 h-10 rounded-full bg-m3-surfaceContainer hover:bg-m3-surfaceContainerHigh flex items-center justify-center text-m3-onSurfaceVariant" title="Sinkronisasi Google Sheets">
+            <span id="syncIcon" class="material-symbols-rounded text-xl">sync</span>
+          </button>
+
+          <!-- Tombol Dark Mode Mobile -->
+          <button onclick="toggleDarkMode()" class="md:hidden m3-press w-10 h-10 rounded-full bg-m3-surfaceContainer hover:bg-m3-surfaceContainerHigh flex items-center justify-center text-m3-onSurfaceVariant" title="Ganti Tema">
+            <span id="mobileThemeIcon" class="material-symbols-rounded text-xl">dark_mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Kontainer Halaman SPA -->
+    <main class="flex-1 px-4 sm:px-6 pt-4 pb-6 max-w-5xl w-full mx-auto">
+
+      <!-- ================================================================= -->
+      <!-- VIEW 1: BERANDA (DASHBOARD OVERVIEW)                              -->
+      <!-- ================================================================= -->
+      <section id="view-beranda" class="spa-view space-y-5">
+
+        <!-- Hero Card Material You — Kombinasi Biru UMS (#2F3185), Emas (#FFB800), Tosca (#1CBDB3) & Putih -->
+        <div class="rounded-3xl bg-gradient-to-br from-[#2F3185] via-[#25276E] to-[#1A1C54] text-white p-5 sm:p-6 shadow-m3-2 relative overflow-hidden border border-white/10">
+          <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-2 max-w-xl">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/12 text-white border border-white/15 backdrop-blur-sm">
+                <span class="material-symbols-rounded text-sm text-[#FFB800] filled">verified</span>
+                STATUS SALAM PHNS • LIVE REKAP UMS
+              </span>
+              <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Assalamu'alaikum, Tim Pengelola</h3>
+              <p class="text-xs sm:text-sm text-white/85 leading-relaxed">
+                Pantau aspirasi fasilitas kamar, keamanan CCTV, air bersih, dan kondusifitas area pondok secara cepat dan terstruktur.
+              </p>
+            </div>
+            <div class="flex sm:flex-col gap-2 shrink-0">
+              <button onclick="switchTab('laporan')" class="m3-press inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-2xl bg-[#FFB800] hover:bg-[#ffca3d] text-[#1A1C29] font-extrabold text-xs sm:text-sm shadow-m3-2">
+                <span>Kelola Laporan</span>
+                <span class="material-symbols-rounded text-lg">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+          <!-- Ornamen dekoratif Tosca (#1CBDB3) & Emas (#FFB800) -->
+          <div class="absolute -right-8 -bottom-10 w-44 h-44 rounded-full bg-[#1CBDB3]/20 blur-md pointer-events-none"></div>
+          <div class="absolute right-20 -top-12 w-28 h-28 rounded-full bg-[#FFB800]/15 pointer-events-none"></div>
+        </div>
+
+        <!-- 4 Kartu Metrik Utama (2x2 di HP, 4 kolom di Desktop) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" id="kpiCardsContainer">
+          <!-- Di-render dinamis via JS -->
+        </div>
+
+        <!-- Klaster Masalah Utama dari Spreadsheet -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-4 sm:p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-rounded text-m3-primary filled">analytics</span>
+              <h4 class="font-bold text-sm sm:text-base">Sorotan Masalah Utama</h4>
+            </div>
+            <span class="text-[11px] font-semibold text-m3-onSurfaceVariant">Ketuk untuk filter</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="clusterCardsContainer">
+            <!-- Di-render dinamis berdasarkan analisis isi laporan -->
+          </div>
+        </div>
+
+        <!-- Grafik Batang Horizontal Distribusi Fasilitas -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-4 sm:p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-rounded text-m3-primary filled">bar_chart</span>
+              <h4 class="font-bold text-sm sm:text-base">Frekuensi Fasilitas Dilaporkan</h4>
+            </div>
+            <span class="text-xs text-m3-onSurfaceVariant" id="facilityTotalLabel">4 Laporan</span>
+          </div>
+          <div id="facilityChartContainer" class="space-y-3">
+            <!-- Di-render dinamis via JS -->
+          </div>
+        </div>
+
+        <!-- Feed Laporan Terbaru -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between px-1">
+            <h4 class="font-bold text-base">Aspirasi & Keluhan Masuk</h4>
+            <button onclick="switchTab('laporan')" class="text-xs font-bold text-m3-primary hover:underline flex items-center gap-0.5">
+              Lihat Semua <span class="material-symbols-rounded text-base">chevron_right</span>
+            </button>
+          </div>
+          <div id="recentReportsContainer" class="space-y-3">
+            <!-- Di-render dinamis via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- VIEW 1B: FITUR KIRIM ASPIRASI (PANDUAN RESMI & FORMULIR)          -->
+      <!-- ================================================================= -->
+      <section id="view-aspirasi" class="spa-view hidden space-y-5">
+
+        <!-- Banner Pembuka Resmi SALAM Mahasantri -->
+        <div class="rounded-3xl bg-gradient-to-br from-[#2F3185] via-[#25276E] to-[#1A1C54] text-white p-5 sm:p-6 shadow-m3-2 relative overflow-hidden border border-white/10">
+          <div class="relative z-10 space-y-2.5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/12 border border-white/15 text-xs font-bold text-[#FFB800]">
+              <span class="material-symbols-rounded filled text-base">auto_awesome</span>
+              <span>Bismillah.</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Salam Mahasantri,</h3>
+            <p class="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
+              Adakah fasilitas dan layanan yang perlu diadakan atau diperbaiki?
+            </p>
+          </div>
+          <div class="absolute -right-8 -bottom-10 w-40 h-40 rounded-full bg-[#1CBDB3]/20 blur-md pointer-events-none"></div>
+          <div class="absolute right-16 -top-10 w-24 h-24 rounded-full bg-[#FFB800]/15 pointer-events-none"></div>
+        </div>
+
+        <!-- Alur 3 Tahap Layanan SALAM -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/50 p-4 sm:p-5 space-y-3.5 shadow-m3-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-rounded filled text-[#2F3185] dark:text-[#B8BCFF]">route</span>
+            <h4 class="font-bold text-sm sm:text-base">Alur Pelaporan & Verifikasi SALAM</h4>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Langkah 1 -->
+            <div class="p-4 rounded-2xl bg-m3-surfaceContainer border border-m3-outlineVariant/40 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-[#2F3185] text-white font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                1
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-extrabold text-[#2F3185] dark:text-[#B8BCFF]">Validasi & Pengisian</div>
+                <p class="text-xs text-m3-onSurface leading-relaxed">
+                  <strong>Mahasantri</strong> mengisi formulir setelah me-validasi laporan yang ingin disampaikan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Langkah 2 -->
+            <div class="p-4 rounded-2xl bg-m3-surfaceContainer border border-m3-outlineVariant/40 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-[#FFB800] text-[#1A1C29] font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                2
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-extrabold text-[#8F6500] dark:text-[#FFD15C]">Pemrosesan Status</div>
+                <p class="text-xs text-m3-onSurface leading-relaxed">
+                  <strong>Staff Administrasi</strong> akan memproses <strong>STATUS</strong> laporan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Langkah 3 -->
+            <div class="p-4 rounded-2xl bg-m3-surfaceContainer border border-m3-outlineVariant/40 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-[#1CBDB3] text-white font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                3
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-extrabold text-[#0E7C75] dark:text-[#4CE0D6]">Penilaian & Verifikasi</div>
+                <p class="text-xs text-m3-onSurface leading-relaxed">
+                  <strong>Musrif/Musrifah</strong> akan memberikan penilaian/me-verifikasi hasilnya mewakili Mahasantri.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tautan Resmi & Konfirmasi Layanan -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/50 p-4 sm:p-5 space-y-3 shadow-m3-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-rounded filled text-[#1CBDB3]">support_agent</span>
+            <h4 class="font-bold text-sm sm:text-base">Akses Formulir, Cek Status & Konfirmasi</h4>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Link Formulir Pelaporan Aduan -->
+            <a href="https://ums.id/salam" target="_blank" rel="noopener noreferrer" class="m3-press p-4 rounded-2xl bg-[#2F3185]/8 hover:bg-[#2F3185]/14 dark:bg-[#B8BCFF]/10 border border-[#2F3185]/25 flex items-center justify-between gap-3 transition-colors">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-2xl bg-[#2F3185] text-white flex items-center justify-center shrink-0">
+                  <span class="material-symbols-rounded text-xl">assignment</span>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[11px] font-semibold text-m3-onSurfaceVariant">Formulir Pelaporan Aduan</div>
+                  <div class="text-sm font-extrabold text-[#2F3185] dark:text-[#B8BCFF] truncate">ums.id/salam</div>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-[#2F3185] dark:text-[#B8BCFF] shrink-0">open_in_new</span>
+            </a>
+
+            <!-- Link Status Pelaporan Aduan -->
+            <a href="https://ums.id/status-salam" target="_blank" rel="noopener noreferrer" class="m3-press p-4 rounded-2xl bg-[#FFB800]/12 hover:bg-[#FFB800]/20 border border-[#FFB800]/35 flex items-center justify-between gap-3 transition-colors">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-2xl bg-[#FFB800] text-[#1A1C29] flex items-center justify-center shrink-0">
+                  <span class="material-symbols-rounded text-xl">fact_check</span>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[11px] font-semibold text-m3-onSurfaceVariant">Ketahui Status Pelaporan Aduan</div>
+                  <div class="text-sm font-extrabold text-[#7A5600] dark:text-[#FFD15C] truncate">ums.id/status-salam</div>
+                </div>
+              </div>
+              <span class="material-symbols-rounded text-[#7A5600] dark:text-[#FFD15C] shrink-0">open_in_new</span>
+            </a>
+          </div>
+
+          <!-- Kartu Konfirmasi WA Shabran Official -->
+          <div class="p-4 rounded-2xl bg-[#1CBDB3]/12 border border-[#1CBDB3]/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-xs font-extrabold text-[#0C756E] dark:text-[#4CE0D6]">
+                <span class="material-symbols-rounded text-base filled">schedule</span>
+                <span>Konfirmasi Layanan Administrasi</span>
+              </div>
+              <p class="text-xs text-m3-onSurface leading-relaxed">
+                Konfirmasi di <strong>+62 0858 2233 1982</strong> pada jam kerja <strong>(08.00 s.d 15.00 WIB)</strong> atau melalui <strong>Musrif/Musrifah</strong>.
+              </p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" onclick="copyShabranPhone()" class="m3-press px-3 py-2.5 rounded-2xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/60 text-xs font-bold text-m3-onSurface flex items-center gap-1" title="Salin Nomor">
+                <span class="material-symbols-rounded text-base">content_copy</span>
+                <span class="hidden sm:inline">Salin No.</span>
+              </button>
+              <a href="https://wa.me/6285822331982" target="_blank" rel="noopener noreferrer" class="m3-press inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-2xl bg-[#1CBDB3] hover:brightness-95 text-white font-extrabold text-xs shadow-m3-1">
+                <span class="material-symbols-rounded text-lg">chat</span>
+                <span>WA Shabran Official</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- VIEW 2: DAFTAR LAPORAN (INBOX & FILTERING)                        -->
+      <!-- ================================================================= -->
+      <section id="view-laporan" class="spa-view hidden space-y-4">
+
+        <!-- Android Material 3 Search Bar -->
+        <div class="relative">
+          <div class="flex items-center bg-m3-surfaceContainerHigh rounded-full px-4 py-2.5 shadow-m3-1 focus-within:ring-2 focus-within:ring-m3-primary transition-all">
+            <span class="material-symbols-rounded text-m3-onSurfaceVariant mr-2.5">search</span>
+            <input
+              type="text"
+              id="searchInput"
+              oninput="handleSearch(this.value)"
+              placeholder="Cari nama pelapor, kamar, CCTV, air..."
+              class="w-full bg-transparent text-sm text-m3-onSurface placeholder:text-m3-onSurfaceVariant focus:outline-none"
+            />
+            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden p-1 rounded-full hover:bg-m3-surfaceContainer text-m3-onSurfaceVariant">
+              <span class="material-symbols-rounded text-lg">close</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Android Scrollable Filter Chips -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="filterChipsContainer">
+          <!-- Di-render dinamis via JS -->
+        </div>
+
+        <!-- Info Jumlah Hasil -->
+        <div class="flex items-center justify-between px-1 text-xs text-m3-onSurfaceVariant">
+          <span id="filterResultCount">Menampilkan 4 laporan</span>
+          <button onclick="sortReportsToggle()" class="inline-flex items-center gap-1 font-semibold text-m3-primary">
+            <span class="material-symbols-rounded text-base">sort</span>
+            <span id="sortOrderLabel">Terbaru</span>
+          </button>
+        </div>
+
+        <!-- Daftar Kartu Laporan -->
+        <div id="allReportsContainer" class="space-y-3">
+          <!-- Di-render dinamis via JS -->
+        </div>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- VIEW 3: PRIORITAS & RENCANA TINDAK LANJUT                         -->
+      <!-- ================================================================= -->
+      <section id="view-tindaklanjut" class="spa-view hidden space-y-4">
+
+        <div class="rounded-3xl bg-m3-secondaryContainer text-m3-onSecondaryContainer p-4 sm:p-5 flex items-start gap-3.5">
+          <span class="material-symbols-rounded filled text-2xl shrink-0 mt-0.5">lightbulb</span>
+          <div class="space-y-1">
+            <h3 class="font-bold text-sm sm:text-base">Rekomendasi Tindak Lanjut Lapangan</h3>
+            <p class="text-xs opacity-90 leading-relaxed">
+              Daftar checklist aksi di bawah disusun dari akumulasi keluhan mahasiswa & staf pada sheet <strong>STATUS SALAM PHNS</strong>. Tandai item yang telah dikerjakan oleh tim sarana prasarana.
+            </p>
+          </div>
+        </div>
+
+        <div id="actionChecklistContainer" class="space-y-3">
+          <!-- Di-render dinamis via JS -->
+        </div>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- VIEW 4: PWA & SINKRONISASI SPREADSHEET                            -->
+      <!-- ================================================================= -->
+      <section id="view-pengaturan" class="spa-view hidden space-y-4">
+
+        <!-- Kartu Status PWA -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-5 space-y-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-m3-primaryContainer text-m3-onPrimaryContainer flex items-center justify-center shrink-0">
+              <span class="material-symbols-rounded filled text-2xl">smartphone</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-base">Aplikasi Web Progresif (PWA)</h3>
+              <p class="text-xs text-m3-onSurfaceVariant">Dapat dipasang di layar utama Android & berjalan offline</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+            <div class="p-3 rounded-2xl bg-m3-surfaceContainer flex items-center justify-between">
+              <span class="text-m3-onSurfaceVariant">Web App Manifest</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                <span class="material-symbols-rounded text-base filled">check_circle</span> Terpasang
+              </span>
+            </div>
+            <div class="p-3 rounded-2xl bg-m3-surfaceContainer flex items-center justify-between">
+              <span class="text-m3-onSurfaceVariant">Penyimpanan Lokal</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                <span class="material-symbols-rounded text-base filled">check_circle</span> Aktif
+              </span>
+            </div>
+          </div>
+
+          <button onclick="triggerPwaInstall()" class="m3-press w-full py-3 px-4 rounded-2xl bg-m3-primary text-m3-onPrimary font-bold text-sm flex items-center justify-center gap-2 shadow-m3-1">
+            <span class="material-symbols-rounded text-xl">add_to_home_screen</span>
+            <span>Pasang SALAM PHNS ke Layar Utama</span>
+          </button>
+        </div>
+
+        <!-- Kartu Koneksi Google Sheets -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-5 space-y-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0">
+              <span class="material-symbols-rounded filled text-2xl">table_view</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-base">Sumber Data Google Sheets</h3>
+              <p class="text-xs text-m3-onSurfaceVariant truncate">ID: 1t1rqbbIZcZU6cecYzi1urIy87JfVROaARXL2b5EZmB4</p>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-m3-surfaceContainer text-xs space-y-1.5">
+            <div class="flex justify-between gap-2">
+              <span class="text-m3-onSurfaceVariant">Status Koneksi Sheet:</span>
+              <span id="sheetConnectionBadge" class="font-bold text-[#0E7C75] dark:text-[#4CE0D6]">Siap Sinkronisasi</span>
+            </div>
+            <div class="flex justify-between gap-2">
+              <span class="text-m3-onSurfaceVariant">Terakhir Disinkronkan:</span>
+              <span id="lastSyncTime" class="font-semibold text-right">Data Sheet Terkini (4 Entri)</span>
+            </div>
+            <div class="flex justify-between gap-2">
+              <span class="text-m3-onSurfaceVariant">Auto-Polling Real-Time:</span>
+              <button type="button" onclick="toggleAutoSync()" id="autoSyncToggleBtn" class="font-bold text-[#2F3185] dark:text-[#B8BCFF] underline">
+                Aktif (Setiap 20 detik)
+              </button>
+            </div>
+          </div>
+
+          <!-- Opsional: Webhook Google Apps Script untuk Write-Back 2 Arah -->
+          <div class="p-3.5 rounded-2xl bg-m3-surfaceContainer space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <label for="gasWebhookInput" class="text-xs font-bold text-m3-onSurface">Webhook Apps Script (Update 2-Arah Opsional)</label>
+              <button type="button" onclick="copyGasSnippet()" class="text-[11px] font-bold text-[#2F3185] dark:text-[#4CE0D6] hover:underline flex items-center gap-1">
+                <span class="material-symbols-rounded text-sm">code</span> Salin Skrip GAS
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <input type="url" id="gasWebhookInput" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 px-3 py-2 rounded-xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/60 text-xs focus:outline-none focus:border-[#2F3185]" />
+              <button type="button" onclick="saveGasWebhookUrl()" class="m3-press px-3.5 py-2 rounded-xl bg-[#2F3185] text-white text-xs font-bold shrink-0">
+                Simpan
+              </button>
+            </div>
+            <p class="text-[11px] text-m3-onSurfaceVariant leading-relaxed">
+              Tanpa webhook, aplikasi membaca update G-Sheet secara otomatis (1-arah). Isi URL Web App Apps Script agar perubahan status di aplikasi juga otomatis menulis balik ke Google Sheet.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button onclick="syncFromGoogleSheet(false)" class="m3-press py-3 px-4 rounded-2xl bg-m3-primaryContainer text-m3-onPrimaryContainer font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+              <span class="material-symbols-rounded text-lg">cloud_sync</span>
+              <span>Tarik Data Live Sheet</span>
+            </button>
+            <a href="https://docs.google.com/spreadsheets/d/1t1rqbbIZcZU6cecYzi1urIy87JfVROaARXL2b5EZmB4/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="m3-press py-3 px-4 rounded-2xl bg-m3-surfaceContainerHigh text-m3-onSurface font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+              <span class="material-symbols-rounded text-lg">open_in_new</span>
+              <span>Buka Google Sheets</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Kustomisasi Material You & Ekspor -->
+        <div class="rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-5 space-y-4">
+          <h3 class="font-bold text-base flex items-center gap-2">
+            <span class="material-symbols-rounded text-m3-primary filled">palette</span>
+            Identitas Warna UMS & Utilitas
+          </h3>
+
+          <!-- Palet Warna UMS Aktif -->
+          <div class="p-3.5 rounded-2xl bg-m3-surfaceContainer space-y-2">
+            <div class="text-xs font-bold text-m3-onSurface">Kombinasi Palet UMS Terpasang</div>
+            <div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-m3-outlineVariant/60">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#2F3185]"></span> #2F3185
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-m3-outlineVariant/60">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#FFB800]"></span> #FFB800
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-m3-outlineVariant/60">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#1CBDB3]"></span> #1CBDB3
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-m3-outlineVariant/60">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#FFFFFF] border border-slate-300"></span> #FFFFFF
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-m3-outlineVariant/60">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#64748B]"></span> Abu-abu
+              </span>
+            </div>
+          </div>
+
+          <!-- Pemilih Dominasi Aksen -->
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-m3-onSurfaceVariant">Dominasi Warna Utama</label>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="setAccentTheme('ums')" class="m3-press p-3 rounded-2xl border border-m3-outlineVariant/60 bg-m3-surfaceContainer flex items-center justify-center gap-2 text-xs font-bold">
+                <span class="w-4 h-4 rounded-full bg-[#2F3185]"></span> Biru UMS
+              </button>
+              <button onclick="setAccentTheme('teal')" class="m3-press p-3 rounded-2xl border border-m3-outlineVariant/60 bg-m3-surfaceContainer flex items-center justify-center gap-2 text-xs font-bold">
+                <span class="w-4 h-4 rounded-full bg-[#1CBDB3]"></span> Tosca
+              </button>
+              <button onclick="setAccentTheme('gold')" class="m3-press p-3 rounded-2xl border border-m3-outlineVariant/60 bg-m3-surfaceContainer flex items-center justify-center gap-2 text-xs font-bold">
+                <span class="w-4 h-4 rounded-full bg-[#FFB800]"></span> Emas UMS
+              </button>
+            </div>
+          </div>
+
+          <!-- Tombol Salin Rekap & Reset Data -->
+          <div class="pt-2 border-t border-m3-outlineVariant/30 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button onclick="copySummaryToClipboard()" class="m3-press py-3 px-4 rounded-2xl bg-m3-surfaceContainerHigh text-m3-onSurface font-bold text-xs flex items-center justify-center gap-2">
+              <span class="material-symbols-rounded text-lg">content_copy</span>
+              <span>Salin Rekap Laporan (WA)</span>
+            </button>
+            <button onclick="resetDefaultData()" class="m3-press py-3 px-4 rounded-2xl bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold text-xs flex items-center justify-center gap-2">
+              <span class="material-symbols-rounded text-lg">restart_alt</span>
+              <span>Reset ke Data Awal Sheet</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- FLOATING ACTION BUTTON (FAB) MOBILE ANDROID                           -->
+  <!-- ===================================================================== -->
+  <button onclick="switchTab('aspirasi')" aria-label="Buka Halaman Kirim Aspirasi" class="md:hidden m3-press fixed right-4 bottom-24 z-30 flex items-center gap-2 bg-m3-primaryContainer text-m3-onPrimaryContainer px-4 py-3.5 rounded-2xl shadow-m3-3 font-bold text-xs">
+    <span class="material-symbols-rounded text-xl">edit_square</span>
+    <span>Aspirasi</span>
+  </button>
+
+  <!-- ===================================================================== -->
+  <!-- ANDROID MATERIAL 3 BOTTOM NAVIGATION BAR (Tampil pada layar < md)     -->
+  <!-- ===================================================================== -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-m3-surfaceContainer border-t border-m3-outlineVariant/40 px-1.5 py-2 flex items-center justify-around shadow-m3-2" aria-label="Navigasi Bawah Android">
+    <button onclick="switchTab('beranda')" data-nav="beranda" class="bottom-nav-btn flex flex-col items-center justify-center gap-1 py-1 px-2 rounded-2xl flex-1">
+      <span class="nav-pill-icon w-14 h-8 rounded-full flex items-center justify-center transition-colors">
+        <span class="material-symbols-rounded text-[21px]">dashboard</span>
+      </span>
+      <span class="text-[10px] font-bold">Beranda</span>
+    </button>
+
+    <button onclick="switchTab('aspirasi')" data-nav="aspirasi" class="bottom-nav-btn flex flex-col items-center justify-center gap-1 py-1 px-2 rounded-2xl flex-1">
+      <span class="nav-pill-icon w-14 h-8 rounded-full flex items-center justify-center transition-colors">
+        <span class="material-symbols-rounded text-[21px]">campaign</span>
+      </span>
+      <span class="text-[10px] font-bold">Aspirasi</span>
+    </button>
+
+    <button onclick="switchTab('laporan')" data-nav="laporan" class="bottom-nav-btn flex flex-col items-center justify-center gap-1 py-1 px-2 rounded-2xl flex-1">
+      <span class="nav-pill-icon w-14 h-8 rounded-full flex items-center justify-center transition-colors relative">
+        <span class="material-symbols-rounded text-[21px]">inbox</span>
+        <span id="bottomBadgeCount" class="absolute top-0.5 right-2.5 bg-rose-600 text-white text-[10px] font-bold px-1.5 rounded-full">4</span>
+      </span>
+      <span class="text-[10px] font-bold">Laporan</span>
+    </button>
+
+    <button onclick="switchTab('tindaklanjut')" data-nav="tindaklanjut" class="bottom-nav-btn flex flex-col items-center justify-center gap-1 py-1 px-2 rounded-2xl flex-1">
+      <span class="nav-pill-icon w-14 h-8 rounded-full flex items-center justify-center transition-colors">
+        <span class="material-symbols-rounded text-[21px]">fact_check</span>
+      </span>
+      <span class="text-[10px] font-bold">Prioritas</span>
+    </button>
+
+    <button onclick="switchTab('pengaturan')" data-nav="pengaturan" class="bottom-nav-btn flex flex-col items-center justify-center gap-1 py-1 px-2 rounded-2xl flex-1">
+      <span class="nav-pill-icon w-14 h-8 rounded-full flex items-center justify-center transition-colors">
+        <span class="material-symbols-rounded text-[21px]">install_mobile</span>
+      </span>
+      <span class="text-[10px] font-bold">PWA</span>
+    </button>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <!-- ANDROID BOTTOM SHEET: DETAIL & UPDATE STATUS LAPORAN                  -->
+  <!-- ===================================================================== -->
+  <div id="detailSheetBackdrop" onclick="closeDetailSheet(event)" class="bottom-sheet-backdrop fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div id="detailSheetPanel" onclick="event.stopPropagation()" class="bottom-sheet-panel w-full max-w-xl bg-m3-surface rounded-t-[28px] sm:rounded-[28px] shadow-m3-3 max-h-[90vh] flex flex-col translate-y-full sm:translate-y-4">
+      <!-- Android Drag Handle -->
+      <div class="pt-3 pb-1 flex justify-center sm:hidden">
+        <div class="w-9 h-1 rounded-full bg-m3-outlineVariant"></div>
+      </div>
+
+      <!-- Header Sheet -->
+      <div class="px-5 py-3 border-b border-m3-outlineVariant/30 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span id="sheetTicketId" class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-m3-primaryContainer text-m3-onPrimaryContainer">#SLM-001</span>
+          <span id="sheetTimestamp" class="text-xs text-m3-onSurfaceVariant"></span>
+        </div>
+        <button onclick="closeDetailSheet()" class="w-9 h-9 rounded-full bg-m3-surfaceContainer flex items-center justify-center text-m3-onSurfaceVariant">
+          <span class="material-symbols-rounded text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Body Sheet (Scrollable) -->
+      <div class="p-5 overflow-y-auto space-y-5" id="detailSheetBody">
+        <!-- Diisi dinamis saat kartu diklik -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- ANDROID BOTTOM SHEET: PANDUAN INSTALL PWA                             -->
+  <!-- ===================================================================== -->
+  <div id="pwaModalBackdrop" onclick="closePwaModal(event)" class="bottom-sheet-backdrop fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden opacity-0 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div id="pwaModalPanel" onclick="event.stopPropagation()" class="bottom-sheet-panel w-full max-w-md bg-m3-surface rounded-t-[28px] sm:rounded-[28px] shadow-m3-3 p-5 space-y-4 translate-y-full sm:translate-y-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-m3-primary text-m3-onPrimary flex items-center justify-center shrink-0">
+          <span class="material-symbols-rounded filled text-2xl">mosque</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-base">Pasang SALAM PHNS di Perangkat</h3>
+          <p class="text-xs text-m3-onSurfaceVariant">Akses cepat layaknya aplikasi native Android</p>
+        </div>
+      </div>
+      <div class="p-3.5 rounded-2xl bg-m3-surfaceContainer text-xs space-y-2 leading-relaxed">
+        <p><strong>Android (Chrome / Edge):</strong> Ketuk ikon menu <strong>⋮</strong> di pojok kanan atas browser, lalu pilih <strong>"Tambahkan ke Layar utama"</strong> atau <strong>"Instal aplikasi"</strong>.</p>
+        <p><strong>iPhone / iPad (Safari):</strong> Ketuk tombol <strong>Bagikan (Share)</strong> di bawah layar, lalu pilih <strong>"Tambah ke Layar Utama"</strong>.</p>
+      </div>
+      <button onclick="closePwaModal()" class="m3-press w-full py-3 rounded-2xl bg-m3-primary text-m3-onPrimary font-bold text-xs">Mengerti</button>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- ANDROID MATERIAL 3 SNACKBAR (TOAST NOTIFICATION)                      -->
+  <!-- ===================================================================== -->
+  <div id="androidSnackbar" class="fixed left-4 right-4 sm:left-auto sm:right-6 bottom-24 md:bottom-6 z-50 pointer-events-none flex justify-center sm:justify-end transition-all duration-300 opacity-0 translate-y-4">
+    <div class="bg-[#2B3130] dark:bg-[#DEE4E1] text-[#EFF5F2] dark:text-[#161D1B] px-4 py-3 rounded-2xl shadow-m3-3 flex items-center gap-3 max-w-md w-full sm:w-auto pointer-events-auto">
+      <span id="snackbarIcon" class="material-symbols-rounded text-emerald-400 dark:text-teal-700 text-xl filled">check_circle</span>
+      <span id="snackbarText" class="text-xs sm:text-sm font-medium flex-1">Perubahan berhasil disimpan</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT APPLICATION LOGIC (SPA + PWA + GOOGLE SHEETS SYNC)         -->
+  <!-- ===================================================================== -->
+  <script>
+    /**
+     * 1. DATASET AWAL DARI SPREADSHEET GOOGLE SHEETS "STATUS SALAM PHNS"
+     * ID Spreadsheet: 1t1rqbbIZcZU6cecYzi1urIy87JfVROaARXL2b5EZmB4
+     */
+    const SHEET_ID = '1t1rqbbIZcZU6cecYzi1urIy87JfVROaARXL2b5EZmB4';
+    const STORAGE_KEY = 'salam_phns_reports_v1';
+    const CHECKLIST_KEY = 'salam_phns_checklist_v1';
+    const GAS_URL_KEY = 'salam_phns_gas_webhook_v1';
+    const AUTO_SYNC_KEY = 'salam_phns_autosync_v1';
+
+    // Data laporan awal sesuai sheet STATUS SALAM PHNS
+    const INITIAL_REPORTS = [
+      {
+        id: 'SLM-001',
+        timestamp: '5/18/2026 16:23:32',
+        email: 'staff-shabran@ums.ac.id',
+        kategori: 'Fisik',
+        fasilitas: 'Contoh: Lampu',
+        uraian: 'Contoh: Sudah 6 hari gelap.',
+        pelapor: 'MT',
+        whatsapp: 'https://wa.me/6285822331982',
+        status: 'Diproses',
+        rating: 0,
+        catatanAdmin: '',
+        tags: ['Penerangan']
+      },
+      {
+        id: 'SLM-002',
+        timestamp: '6/9/2026 17:56:02',
+        email: 'g100259077@student.ums.ac.id',
+        kategori: 'Fisik',
+        fasilitas: 'Kamar Tidur, Asrama',
+        uraian: 'Tidak adanya CCTV sehingga tidak bisa memantau atau melihat kalo ada kehilangan',
+        pelapor: 'I',
+        whatsapp: 'https://wa.me/6281326160554',
+        status: 'Diproses',
+        rating: 0,
+        catatanAdmin: '',
+        tags: ['CCTV & Keamanan', 'Kamar Tidur']
+      },
+      {
+        id: 'SLM-003',
+        timestamp: '6/10/2026 6:35:40',
+        email: 'i000259086@student.ums.ac.id',
+        kategori: 'Fisik',
+        fasilitas: 'Kamar Tidur, Ruang Aktivitas, Olahraga, Kebersihan, Kerapian, Ketenangan (Tingkat kebisingan/Kondusifitas), Kenyamanan (Privasi Ruang dan Visual)',
+        uraian: 'setiap orang memiliki hak terhadap privasinya masing masing, maka hendaknya kamar lebih dipersempit jumlah orangnya, karena hal ini juga mempengaruhi kenyamanan dan ketenangan dalam beraktivitas dan berpikir \n\nolahraga itu dilakukan untuk menjaga kesehatan, namun dengan tempat yang sangat mudah kotor akibat mudahnya akses bagi debu untuk masuk, juga burung-burung yang terbang bebas di dalamnya sehingga kenyamanan dalam berolahraga sangat jauh dari kata puas\n\nsama halnya dengan kondusifitas area sekitar yang sangat bising dengan adanya konstruksi sejak pagi hingga malam yang tak henti-henti, hal ini sangat mengganggu kefokusan dalam aktivitas belajar maupun lainnya, juga memengaruhi terhadap ketenangan batin yang kemudian membuat individu sekitarnya merasa tidak tenang dan juga kehilangan kualitas tidur yang baik\n\nselanjutnya menindaklanjuti pencurian, baik motor ataupun sepeda yang terjadi di lingkup pondok maupun di desa, maka hendaknya area pondok di pasangi cctv minimal di bagian depan pondok, sehingga dapat diketahui siapa saja yang masuk ke lingkungan pondok, terlebih dalam proses konstruksi seperti ini tidak sedikit pekerja yang keluar masuk ke lantai 2 dan 3\n\nterima kasihh semoga melalui aspirasi ini bisa membantu pondok untuk terus menjadi lebih baik, baik dari segi individu yang di dalamnya maupun fasilitas yang, dan untuk lebih segara dibenahi kekurangannya ☺️🙏🏼',
+        pelapor: 'rafa',
+        whatsapp: 'https://wa.me/6285727535439',
+        status: 'Diproses',
+        rating: 0,
+        catatanAdmin: '',
+        tags: ['CCTV & Keamanan', 'Kamar Tidur', 'Konstruksi & Bising', 'Area Olahraga']
+      },
+      {
+        id: 'SLM-004',
+        timestamp: '6/10/2026 7:51:45',
+        email: 'g000259150@student.ums.ac.id',
+        kategori: 'Fisik',
+        fasilitas: 'Kamar Tidur, Ruang Aktivitas, Air Bersih, Kenyamanan (Privasi Ruang dan Visual)',
+        uraian: '1. kipas cuma satu, gak berasa juga anginnya, padahal buat kamar besar isi 12 anak. \n2. ruang aktifitas, aula lantai 3 itu sudah gak nyaman sama sekali untuk berkegiatan. tadinya buat lap. badminton, sekarang buat jemuran. ditambah ada info katanya tahun depan angkatan 24 kamar pindah ke lantai 3, padahal kamar sebesar itu klo diisi 24 anak ya ngga bakal nyaman, berantakan, bakal berisik bgt juga.\n3. air bersih, air sering mati.. mungkin krna masih pembangunan, gantian air sama pembangunan. \n4. keamanan, butuh CCTV di parkiran dan lantai satu sebelum tangga, atau dari pojok tangga lantai 2 ke lantai 1',
+        pelapor: 'ASK',
+        whatsapp: 'https://wa.me/6285777906543',
+        status: 'Diproses',
+        rating: 0,
+        catatanAdmin: '',
+        tags: ['CCTV & Keamanan', 'Kamar Tidur', 'Air Bersih', 'Aula Lt. 3']
+      }
+    ];
+
+    // Daftar rekomendasi tindak lanjut prioritas lapangan
+    const INITIAL_CHECKLIST = [
+      {
+        id: 'ACT-01',
+        title: 'Pemasangan CCTV Area Depan, Parkiran & Akses Tangga',
+        desc: 'Pasang titik kamera pengawas di gerbang depan pondok, parkiran motor/sepeda, serta akses tangga lantai 1 dan 2.',
+        priority: 'Mendesak',
+        relatedIds: ['SLM-002', 'SLM-003', 'SLM-004'],
+        done: false
+      },
+      {
+        id: 'ACT-02',
+        title: 'Penambahan Kipas Angin & Evaluasi Kapasitas Kamar',
+        desc: 'Tambah unit kipas angin di kamar berkapasitas 12 penghuni serta tinjau ulang rencana penempatan 24 penghuni di lantai 3.',
+        priority: 'Tinggi',
+        relatedIds: ['SLM-003', 'SLM-004'],
+        done: false
+      },
+      {
+        id: 'ACT-03',
+        title: 'Stabilisasi Suplai Air Bersih & Jam Kerja Konstruksi',
+        desc: 'Pisahkan jalur/jadwal distribusi air bersih antara asrama dan proyek pembangunan, serta batasi aktivitas bising malam hari.',
+        priority: 'Tinggi',
+        relatedIds: ['SLM-003', 'SLM-004'],
+        done: false
+      },
+      {
+        id: 'ACT-04',
+        title: 'Penertiban Aula Lantai 3 & Proteksi Debu Area Olahraga',
+        desc: 'Kembalikan fungsi Aula Lantai 3 untuk kegiatan mahasiswa (relokasi jemuran) dan pasang jaring/penghalang burung & debu.',
+        priority: 'Sedang',
+        relatedIds: ['SLM-003', 'SLM-004'],
+        done: false
+      },
+      {
+        id: 'ACT-05',
+        title: 'Perbaikan Lampu Penerangan Mati',
+        desc: 'Ganti unit lampu penerangan yang padam sesuai laporan staf.',
+        priority: 'Sedang',
+        relatedIds: ['SLM-001'],
+        done: false
+      }
+    ];
+
+    // State Aplikasi SPA
+    let appState = {
+      reports: [],
+      checklist: [],
+      activeTab: 'beranda',
+      activeFilter: 'Semua',
+      searchQuery: '',
+      sortNewest: true,
+      deferredInstallPrompt: null,
+      autoSyncEnabled: true,
+      autoSyncTimer: null,
+      gasWebhookUrl: '',
+      isSyncing: false
+    };
+
+    /**
+     * 2. INISIALISASI PWA (DYNAMIC MANIFEST & SERVICE WORKER)
+     */
+    function initPWA() {
+      try {
+        // Buat SVG Icon untuk Manifest PWA dengan kombinasi warna resmi UMS (#2F3185, #FFB800, #1CBDB3, #FFFFFF)
+        const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#2F3185"/><circle cx="256" cy="256" r="196" fill="none" stroke="#1CBDB3" stroke-width="18"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-weight="bold" font-size="172">SP</text><circle cx="390" cy="126" r="28" fill="#FFB800"/></svg>`;
+        const iconUrl = 'data:image/svg+xml;base64,' + btoa(svgIcon);
+
+        const manifest = {
+          name: 'SALAM PHNS — Dashboard Aspirasi UMS',
+          short_name: 'SALAM PHNS',
+          description: 'Aplikasi SPA-PWA Aspirasi & Layanan Fasilitas Pondok Hajjah Nuriyah Shabran UMS',
+          start_url: './',
+          display: 'standalone',
+          background_color: '#F4F5F8',
+          theme_color: '#2F3185',
+          orientation: 'portrait-primary',
+          icons: [
+            { src: iconUrl, sizes: '192x192', type: 'image/svg+xml' },
+            { src: iconUrl, sizes: '512x512', type: 'image/svg+xml' }
+          ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        const linkEl = document.createElement('link');
+        linkEl.rel = 'manifest';
+        linkEl.href = manifestURL;
+        document.head.appendChild(linkEl);
+
+        // Tangkap event native browser beforeinstallprompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          appState.deferredInstallPrompt = e;
+        });
+
+        // Registrasi Service Worker ringan jika diizinkan oleh origin
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+          const swCode = `
+            const CACHE_NAME = 'salam-phns-v1';
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+            self.addEventListener('fetch', (e) => {
+              e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+            });
+          `;
+          const swBlob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl).catch(() => {
+            // Abaikan secara senyap jika dijalankan di sandboxed iframe
+          });
+        }
+      } catch (err) {
+        console.warn('PWA init info:', err.message);
+      }
+    }
+
+    function triggerPwaInstall() {
+      if (appState.deferredInstallPrompt) {
+        appState.deferredInstallPrompt.prompt();
+        appState.deferredInstallPrompt.userChoice.then(() => {
+          appState.deferredInstallPrompt = null;
+        });
+      } else {
+        const backdrop = document.getElementById('pwaModalBackdrop');
+        const panel = document.getElementById('pwaModalPanel');
+        backdrop.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          backdrop.classList.remove('opacity-0');
+          panel.classList.remove('translate-y-full', 'sm:translate-y-4');
+        });
+      }
+    }
+
+    function closePwaModal(e) {
+      if (e && e.target !== e.currentTarget) return;
+      const backdrop = document.getElementById('pwaModalBackdrop');
+      const panel = document.getElementById('pwaModalPanel');
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-y-full', 'sm:translate-y-4');
+      setTimeout(() => backdrop.classList.add('hidden'), 250);
+    }
+
+    /**
+     * 3. PENYIMPANAN & SINKRONISASI DATA
+     */
+    function loadAppData() {
+      try {
+        const savedReports = localStorage.getItem(STORAGE_KEY);
+        const savedChecklist = localStorage.getItem(CHECKLIST_KEY);
+        const savedGasUrl = localStorage.getItem(GAS_URL_KEY);
+        const savedAutoSync = localStorage.getItem(AUTO_SYNC_KEY);
+        appState.reports = savedReports ? JSON.parse(savedReports) : JSON.parse(JSON.stringify(INITIAL_REPORTS));
+        appState.checklist = savedChecklist ? JSON.parse(savedChecklist) : JSON.parse(JSON.stringify(INITIAL_CHECKLIST));
+        appState.gasWebhookUrl = savedGasUrl || '';
+        appState.autoSyncEnabled = savedAutoSync === null ? true : savedAutoSync === 'true';
+        const gasInput = document.getElementById('gasWebhookInput');
+        if (gasInput) gasInput.value = appState.gasWebhookUrl;
+      } catch (e) {
+        appState.reports = JSON.parse(JSON.stringify(INITIAL_REPORTS));
+        appState.checklist = JSON.parse(JSON.stringify(INITIAL_CHECKLIST));
+      }
+    }
+
+    function saveAppData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.reports));
+        localStorage.setItem(CHECKLIST_KEY, JSON.stringify(appState.checklist));
+      } catch (e) {
+        console.warn('Gagal menyimpan ke localStorage:', e);
+      }
+    }
+
+    /**
+     * Menarik pembaruan real-time dari Google Sheets CSV endpoint dengan cache-busting
+     * @param {boolean} isSilent - Jika true, sinkronisasi berjalan di latar belakang tanpa mengganggu layar
+     */
+    async function syncFromGoogleSheet(isSilent = false) {
+      if (appState.isSyncing) return;
+      appState.isSyncing = true;
+
+      const syncIcon = document.getElementById('syncIcon');
+      const liveStatusText = document.getElementById('liveStatusText');
+      if (syncIcon) syncIcon.classList.add('animate-spin');
+      if (liveStatusText) liveStatusText.textContent = 'Menyinkronkan...';
+      if (!isSilent) {
+        showSnackbar('Menghubungkan ke Google Sheets STATUS SALAM PHNS...', 'sync');
+      }
+
+      try {
+        // Tambahkan parameter _ts agar browser & Service Worker selalu mengambil data real-time terbaru
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Sheet1&_ts=${Date.now()}`;
+        const response = await fetch(csvUrl, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Respon jaringan tidak tersedia');
+        const csvText = await response.text();
+
+        // Deteksi jika Google mengembalikan halaman login HTML (sheet belum disetel publik)
+        if (csvText.trim().startsWith('<!DOCTYPE html') || csvText.includes('accounts.google.com')) {
+          throw new Error('Sheet memerlukan izin akses Viewer publik');
+        }
+
+        const parsed = parseGoogleSheetCSV(csvText);
+
+        if (parsed && parsed.length > 0) {
+          const mergeResult = mergeSheetReports(parsed);
+          saveAppData();
+          renderAll();
+
+          const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          const lastSyncEl = document.getElementById('lastSyncTime');
+          const connBadgeEl = document.getElementById('sheetConnectionBadge');
+          if (lastSyncEl) lastSyncEl.textContent = `Hari ini pukul ${nowStr} (${appState.reports.length} Entri)`;
+          if (connBadgeEl) {
+            connBadgeEl.textContent = 'Terhubung Live (CSV)';
+            connBadgeEl.className = 'font-bold text-[#0E7C75] dark:text-[#4CE0D6]';
+          }
+
+          if (mergeResult.newCount > 0) {
+            showSnackbar(`🔔 ${mergeResult.newCount} laporan baru masuk dari Google Sheets!`, 'notifications_active');
+          } else if (mergeResult.updatedCount > 0) {
+            showSnackbar(`🔄 ${mergeResult.updatedCount} status/rating diperbarui dari Google Sheets`, 'sync');
+          } else if (!isSilent) {
+            showSnackbar(`Data sudah paling mutakhir (${appState.reports.length} laporan).`, 'check_circle');
+          }
+        } else {
+          throw new Error('Format baris kosong');
+        }
+      } catch (err) {
+        const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        const lastSyncEl = document.getElementById('lastSyncTime');
+        const connBadgeEl = document.getElementById('sheetConnectionBadge');
+        if (lastSyncEl) lastSyncEl.textContent = `Cache Offline (${appState.reports.length} Entri • ${nowStr})`;
+        if (connBadgeEl) {
+          connBadgeEl.textContent = err.message.includes('izin') ? 'Perlu Akses Publik Sheet' : 'Mode Cache Offline';
+          connBadgeEl.className = 'font-bold text-amber-600 dark:text-amber-400';
+        }
+        if (!isSilent) {
+          showSnackbar('Menggunakan cache lokal SALAM PHNS (' + err.message + ')', 'cloud_done');
+        }
+      } finally {
+        appState.isSyncing = false;
+        setTimeout(() => {
+          if (syncIcon) syncIcon.classList.remove('animate-spin');
+          updateLiveBadgeUI();
+        }, 500);
+      }
+    }
+
+    /**
+     * Menggabungkan baris dari Google Sheet dengan state lokal tanpa menghilangkan perubahan admin lokal
+     */
+    function mergeSheetReports(sheetRows) {
+      let newCount = 0;
+      let updatedCount = 0;
+      const existingMap = new Map();
+
+      appState.reports.forEach(item => {
+        const fingerprint = `${item.timestamp}|${item.email}|${item.pelapor}`.toLowerCase();
+        existingMap.set(fingerprint, item);
+      });
+
+      const merged = sheetRows.map((row, idx) => {
+        const fingerprint = `${row.timestamp}|${row.email}|${row.pelapor}`.toLowerCase();
+        const existing = existingMap.get(fingerprint);
+
+        if (existing) {
+          existingMap.delete(fingerprint);
+          // Jika status di Google Sheet berubah dari 'Diproses' menjadi status lain, ikuti Sheet
+          let finalStatus = existing.status;
+          let finalRating = existing.rating;
+          if (row.status && row.status !== 'Diproses' && row.status !== existing.status) {
+            finalStatus = row.status;
+            updatedCount++;
+          }
+          if (row.rating > 0 && row.rating !== existing.rating) {
+            finalRating = row.rating;
+            updatedCount++;
+          }
+          return {
+            ...row,
+            id: existing.id,
+            status: finalStatus,
+            rating: finalRating
+          };
+        } else {
+          newCount++;
+          return {
+            ...row,
+            id: `SLM-${String(idx + 1).padStart(3, '0')}`
+          };
+        }
+      });
+
+      // Pertahankan entri baru yang dibuat langsung dari aplikasi jika belum masuk ke Sheet
+      existingMap.forEach(localOnlyItem => {
+        merged.push(localOnlyItem);
+      });
+
+      appState.reports = merged;
+      return { newCount, updatedCount };
+    }
+
+    /**
+     * Mengatur Auto-Polling Real-Time setiap 20 detik & listener visibilitychange / online
+     */
+    function initRealtimeSync() {
+      if (appState.autoSyncTimer) clearInterval(appState.autoSyncTimer);
+      updateLiveBadgeUI();
+
+      appState.autoSyncTimer = setInterval(() => {
+        if (appState.autoSyncEnabled && !document.hidden && navigator.onLine) {
+          syncFromGoogleSheet(true);
+        }
+      }, 20000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && appState.autoSyncEnabled && navigator.onLine) {
+          syncFromGoogleSheet(true);
+        }
+      });
+
+      window.addEventListener('online', () => {
+        updateLiveBadgeUI();
+        if (appState.autoSyncEnabled) syncFromGoogleSheet(true);
+      });
+
+      window.addEventListener('offline', () => {
+        updateLiveBadgeUI();
+        showSnackbar('Koneksi terputus — beralih ke mode offline PWA', 'wifi_off');
+      });
+    }
+
+    function updateLiveBadgeUI() {
+      const liveText = document.getElementById('liveStatusText');
+      const liveDot = document.getElementById('livePulseDot');
+      const toggleBtn = document.getElementById('autoSyncToggleBtn');
+
+      if (!navigator.onLine) {
+        if (liveText) liveText.textContent = 'Offline Cache';
+        if (liveDot) liveDot.className = 'w-1.5 h-1.5 rounded-full bg-amber-500';
+      } else if (appState.autoSyncEnabled) {
+        if (liveText) liveText.textContent = 'Live Sync • 20d';
+        if (liveDot) liveDot.className = 'w-1.5 h-1.5 rounded-full bg-[#1CBDB3] animate-pulse';
+      } else {
+        if (liveText) liveText.textContent = 'Manual Sync';
+        if (liveDot) liveDot.className = 'w-1.5 h-1.5 rounded-full bg-slate-400';
+      }
+
+      if (toggleBtn) {
+        toggleBtn.textContent = appState.autoSyncEnabled ? 'Aktif (Setiap 20 detik)' : 'Nonaktif (Ketuk untuk aktifkan)';
+      }
+    }
+
+    function toggleAutoSync() {
+      appState.autoSyncEnabled = !appState.autoSyncEnabled;
+      try {
+        localStorage.setItem(AUTO_SYNC_KEY, String(appState.autoSyncEnabled));
+      } catch (e) {}
+      updateLiveBadgeUI();
+      if (appState.autoSyncEnabled) {
+        syncFromGoogleSheet(false);
+      } else {
+        showSnackbar('Auto-sync berkala dijeda', 'pause_circle');
+      }
+    }
+
+    function saveGasWebhookUrl() {
+      const val = document.getElementById('gasWebhookInput').value.trim();
+      appState.gasWebhookUrl = val;
+      try {
+        localStorage.setItem(GAS_URL_KEY, val);
+      } catch (e) {}
+      showSnackbar(val ? 'URL Webhook Apps Script tersimpan!' : 'URL Webhook dihapus', 'link');
+    }
+
+    async function pushUpdateToGasWebhook(payload) {
+      if (!appState.gasWebhookUrl) return;
+      try {
+        await fetch(appState.gasWebhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.warn('Webhook sync info:', e.message);
+      }
+    }
+
+    function copyGasSnippet() {
+      const gasCode = `function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  var data = JSON.parse(e.postData.contents);
+  var rows = sheet.getDataRange().getValues();
+  if (data.action === "update") {
+    for (var i = 1; i < rows.length; i++) {
+      if (String(rows[i][0]) === String(data.timestamp) && String(rows[i][7]) === String(data.pelapor)) {
+        if (data.status) sheet.getRange(i + 1, 10).setValue(data.status);
+        if (data.rating !== undefined) sheet.getRange(i + 1, 11).setValue(data.rating);
+        break;
+      }
+    }
+  } else if (data.action === "create") {
+    sheet.appendRow([data.timestamp, data.email, data.kategori, data.fasilitas, data.uraian, "", "", data.pelapor, data.whatsapp, "Diproses", 0]);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ok: true})).setMimeType(ContentService.MimeType.JSON);
+}`;
+      const temp = document.createElement('textarea');
+      temp.value = gasCode;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      showSnackbar('Kode Google Apps Script disalin ke clipboard!', 'code');
+    }
+
+    function parseGoogleSheetCSV(csv) {
+      // Parser CSV sederhana untuk kolom Google Form SALAM
+      const rows = [];
+      let current = '';
+      let inQuotes = false;
+      let row = [];
+
+      for (let i = 0; i < csv.length; i++) {
+        const char = csv[i];
+        const nextChar = csv[i + 1];
+        if (char === '"' && inQuotes && nextChar === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          row.push(current.trim());
+          current = '';
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (current || row.length > 0) {
+            row.push(current.trim());
+            rows.push(row);
+            row = [];
+            current = '';
+          }
+        } else {
+          current += char;
+        }
+      }
+      if (current || row.length > 0) {
+        row.push(current.trim());
+        rows.push(row);
+      }
+
+      // Lewati baris header (baris 0)
+      const dataRows = rows.slice(1).filter(r => r.length >= 6 && r[0]);
+      if (dataRows.length === 0) return null;
+
+      return dataRows.map((cols, idx) => {
+        const fasilitasText = cols[3] || cols[5] || 'Umum';
+        const uraianText = cols[4] || cols[6] || '-';
+        return {
+          id: `SLM-${String(idx + 1).padStart(3, '0')}`,
+          timestamp: cols[0] || '',
+          email: cols[1] || '-',
+          kategori: cols[2] || 'Fisik',
+          fasilitas: fasilitasText,
+          uraian: uraianText,
+          pelapor: cols[7] || 'Anonim',
+          whatsapp: (cols[8] || '').replace(/\s+/g, ''),
+          status: cols[9] || 'Diproses',
+          rating: parseInt(cols[10], 10) || 0,
+          catatanAdmin: '',
+          tags: extractTagsFromText(fasilitasText + ' ' + uraianText)
+        };
+      });
+    }
+
+    function extractTagsFromText(text) {
+      const lower = text.toLowerCase();
+      const tags = [];
+      if (lower.includes('cctv') || lower.includes('pencurian') || lower.includes('keamanan')) tags.push('CCTV & Keamanan');
+      if (lower.includes('kamar') || lower.includes('kipas') || lower.includes('privasi')) tags.push('Kamar Tidur');
+      if (lower.includes('air')) tags.push('Air Bersih');
+      if (lower.includes('konstruksi') || lower.includes('bising') || lower.includes('pembangunan')) tags.push('Konstruksi & Bising');
+      if (lower.includes('aula') || lower.includes('lantai 3')) tags.push('Aula Lt. 3');
+      if (lower.includes('olahraga')) tags.push('Area Olahraga');
+      if (lower.includes('lampu')) tags.push('Penerangan');
+      return tags.length > 0 ? tags : ['Fasilitas Umum'];
+    }
+
+    /**
+     * 4. NAVIGASI SPA & TEMA ANDROID
+     */
+    function switchTab(tabName) {
+      appState.activeTab = tabName;
+
+      // Sembunyikan semua view
+      document.querySelectorAll('.spa-view').forEach(el => el.classList.add('hidden'));
+      const activeView = document.getElementById(`view-${tabName}`);
+      if (activeView) activeView.classList.remove('hidden');
+
+      // Update judul Top App Bar
+      const titles = {
+        beranda: ['SALAM PHNS', 'Pondok Hajjah Nuriyah Shabran • UMS'],
+        aspirasi: ['Kirim Aspirasi', 'Panduan & Akses Resmi SALAM Mahasantri'],
+        laporan: ['Kotak Aspirasi', 'Kelola & Tindak Lanjuti Laporan Masuk'],
+        tindaklanjut: ['Prioritas Lapangan', 'Rekomendasi Aksi Sarana & Prasarana'],
+        pengaturan: ['PWA & Sinkronisasi', 'Pengaturan Aplikasi & Google Sheets']
+      };
+      document.getElementById('topBarTitle').textContent = titles[tabName][0];
+      document.getElementById('topBarSubtitle').textContent = titles[tabName][1];
+
+      // Update status aktif pada Navigation Rail & Bottom Navigation
+      document.querySelectorAll('.nav-rail-btn, .bottom-nav-btn').forEach(btn => {
+        const isActive = btn.getAttribute('data-nav') === tabName;
+        const pill = btn.querySelector('.nav-pill-icon');
+        if (isActive) {
+          btn.classList.add('text-m3-onSurface');
+          btn.classList.remove('text-m3-onSurfaceVariant');
+          if (pill) pill.classList.add('bg-m3-secondaryContainer', 'text-m3-onSecondaryContainer');
+        } else {
+          btn.classList.remove('text-m3-onSurface');
+          btn.classList.add('text-m3-onSurfaceVariant');
+          if (pill) pill.classList.remove('bg-m3-secondaryContainer', 'text-m3-onSecondaryContainer');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyShabranPhone() {
+      const temp = document.createElement('textarea');
+      temp.value = '+62 0858 2233 1982';
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand('copy');
+        showSnackbar('Nomor WA Shabran Official (+62 0858 2233 1982) disalin!', 'content_copy');
+      } catch (e) {
+        showSnackbar('Gagal menyalin nomor', 'error');
+      }
+      document.body.removeChild(temp);
+    }
+
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      const iconName = isDark ? 'light_mode' : 'dark_mode';
+      document.getElementById('mobileThemeIcon').textContent = iconName;
+      document.getElementById('railThemeIcon').textContent = iconName;
+      document.getElementById('railThemeLabel').textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+      document.getElementById('metaThemeColor').setAttribute('content', isDark ? '#11131B' : '#2F3185');
+    }
+
+    function setAccentTheme(accent) {
+      if (accent === 'ums') {
+        document.documentElement.removeAttribute('data-accent');
+      } else {
+        document.documentElement.setAttribute('data-accent', accent);
+      }
+      showSnackbar('Tema warna UMS diperbarui', 'palette');
+    }
+
+    /**
+     * 5. RENDERING KOMPONEN DASHBOARD
+     */
+    function renderAll() {
+      updateBadges();
+      renderKpiCards();
+      renderClusterCards();
+      renderFacilityChart();
+      renderRecentReports();
+      renderFilterChips();
+      renderAllReports();
+      renderActionChecklist();
+    }
+
+    function updateBadges() {
+      const diprosesCount = appState.reports.filter(r => r.status === 'Diproses').length;
+      ['railBadgeCount', 'railBadgeCountLg', 'bottomBadgeCount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.textContent = diprosesCount;
+          el.style.display = diprosesCount > 0 ? '' : 'none';
+        }
+      });
+    }
+
+    function renderKpiCards() {
+      const total = appState.reports.length;
+      const diproses = appState.reports.filter(r => r.status === 'Diproses').length;
+      const ditindak = appState.reports.filter(r => r.status === 'Ditindaklanjuti').length;
+      const selesai = appState.reports.filter(r => r.status === 'Selesai').length;
+
+      const rated = appState.reports.filter(r => r.rating > 0);
+      const avgRating = rated.length > 0
+        ? (rated.reduce((acc, r) => acc + r.rating, 0) / rated.length).toFixed(1)
+        : '0.0';
+
+      const cards = [
+        {
+          label: 'Total Laporan',
+          value: total,
+          sub: '100% Kategori Fisik',
+          icon: 'summarize',
+          bg: 'bg-m3-surfaceContainerLow',
+          iconBg: 'bg-[#2F3185] text-white'
+        },
+        {
+          label: 'Diproses',
+          value: diproses,
+          sub: 'Menunggu tindakan',
+          icon: 'pending_actions',
+          bg: 'bg-m3-surfaceContainerLow',
+          iconBg: 'bg-[#FFB800] text-[#1A1C29]'
+        },
+        {
+          label: 'Ditindak / Selesai',
+          value: `${ditindak + selesai}`,
+          sub: `${selesai} selesai tuntas`,
+          icon: 'task_alt',
+          bg: 'bg-m3-surfaceContainerLow',
+          iconBg: 'bg-[#1CBDB3] text-white'
+        },
+        {
+          label: 'Rating Penilaian',
+          value: avgRating,
+          sub: `${rated.length} dari ${total} dinilai`,
+          icon: 'star',
+          bg: 'bg-m3-surfaceContainerLow',
+          iconBg: 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
+        }
+      ];
+
+      document.getElementById('kpiCardsContainer').innerHTML = cards.map(c => `
+        <div class="rounded-3xl ${c.bg} border border-m3-outlineVariant/60 p-4 flex flex-col justify-between gap-3 shadow-m3-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-m3-onSurfaceVariant">${c.label}</span>
+            <div class="w-9 h-9 rounded-2xl ${c.iconBg} flex items-center justify-center shadow-xs">
+              <span class="material-symbols-rounded filled text-xl">${c.icon}</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-2xl sm:text-3xl font-extrabold tracking-tight">${c.value}</div>
+            <div class="text-[11px] text-m3-onSurfaceVariant mt-0.5">${c.sub}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderClusterCards() {
+      const clusters = [
+        {
+          title: 'Kebutuhan CCTV & Keamanan',
+          count: appState.reports.filter(r => r.tags.includes('CCTV & Keamanan')).length,
+          desc: 'Parkiran, gerbang depan & tangga lantai 1-2',
+          icon: 'videocam',
+          filter: 'CCTV & Keamanan',
+          accent: 'bg-[#2F3185]/12 text-[#2F3185] dark:bg-[#B8BCFF]/15 dark:text-[#B8BCFF]'
+        },
+        {
+          title: 'Kepadatan & Sirkulasi Kamar',
+          count: appState.reports.filter(r => r.tags.includes('Kamar Tidur')).length,
+          desc: 'Kipas kurang (1 utk 12 anak) & privasi ruang',
+          icon: 'bed',
+          filter: 'Kamar Tidur',
+          accent: 'bg-[#FFB800]/20 text-[#8F6500] dark:text-[#FFD15C]'
+        },
+        {
+          title: 'Dampak Konstruksi & Air Bersih',
+          count: appState.reports.filter(r => r.tags.includes('Air Bersih') || r.tags.includes('Konstruksi & Bising')).length,
+          desc: 'Bising pagi-malam & suplai air sering mati',
+          icon: 'water_drop',
+          filter: 'Air Bersih',
+          accent: 'bg-[#1CBDB3]/15 text-[#0E7C75] dark:text-[#4CE0D6]'
+        },
+        {
+          title: 'Aula Lantai 3 & Area Olahraga',
+          count: appState.reports.filter(r => r.tags.includes('Aula Lt. 3') || r.tags.includes('Area Olahraga')).length,
+          desc: 'Alih fungsi jemuran, debu & gangguan burung',
+          icon: 'sports_tennis',
+          filter: 'Aula Lt. 3',
+          accent: 'bg-slate-500/12 text-slate-700 dark:text-slate-300'
+        }
+      ];
+
+      document.getElementById('clusterCardsContainer').innerHTML = clusters.map(cl => `
+        <button onclick="jumpToFilteredReports('${cl.filter}')" class="m3-press text-left p-3.5 rounded-2xl bg-m3-surfaceContainer hover:bg-m3-surfaceContainerHigh border border-m3-outlineVariant/30 flex items-start gap-3 transition-colors">
+          <div class="w-10 h-10 rounded-2xl ${cl.accent} flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-rounded filled text-xl">${cl.icon}</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h5 class="font-bold text-xs sm:text-sm truncate">${cl.title}</h5>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-m3-primaryContainer text-m3-onPrimaryContainer shrink-0">${cl.count}</span>
+            </div>
+            <p class="text-[11px] text-m3-onSurfaceVariant mt-1 line-clamp-2">${cl.desc}</p>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function renderFacilityChart() {
+      const counts = {};
+      appState.reports.forEach(r => {
+        r.tags.forEach(tag => {
+          counts[tag] = (counts[tag] || 0) + 1;
+        });
+      });
+
+      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      const maxVal = entries.length > 0 ? entries[0][1] : 1;
+      document.getElementById('facilityTotalLabel').textContent = `${appState.reports.length} Laporan Total`;
+
+      document.getElementById('facilityChartContainer').innerHTML = entries.map(([name, val]) => {
+        const pct = Math.round((val / maxVal) * 100);
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span>${name}</span>
+              <span class="text-[#2F3185] dark:text-[#4CE0D6] font-bold">${val} laporan</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full bg-m3-surfaceContainerHigh overflow-hidden">
+              <div class="h-full rounded-full bg-gradient-to-r from-[#2F3185] to-[#1CBDB3] transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRecentReports() {
+      const sorted = [...appState.reports].reverse().slice(0, 3);
+      document.getElementById('recentReportsContainer').innerHTML = sorted.map(r => createReportCardHTML(r)).join('');
+    }
+
+    function renderFilterChips() {
+      const filters = ['Semua', 'Diproses', 'Ditindaklanjuti', 'Selesai', 'CCTV & Keamanan', 'Kamar Tidur', 'Air Bersih', 'Aula Lt. 3'];
+      document.getElementById('filterChipsContainer').innerHTML = filters.map(f => {
+        const active = appState.activeFilter === f;
+        return `
+          <button onclick="setFilter('${f}')" class="m3-press shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
+            active
+              ? 'bg-m3-secondaryContainer text-m3-onSecondaryContainer border-transparent shadow-m3-1'
+              : 'bg-m3-surfaceContainerLow text-m3-onSurfaceVariant border-m3-outlineVariant/50 hover:bg-m3-surfaceContainer'
+          }">
+            ${active ? '<span class="material-symbols-rounded text-base">check</span>' : ''}
+            <span>${f}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderAllReports() {
+      let list = [...appState.reports];
+
+      if (appState.sortNewest) {
+        list.reverse();
+      }
+
+      if (appState.activeFilter !== 'Semua') {
+        list = list.filter(r =>
+          r.status === appState.activeFilter ||
+          r.tags.includes(appState.activeFilter)
+        );
+      }
+
+      if (appState.searchQuery.trim() !== '') {
+        const q = appState.searchQuery.toLowerCase();
+        list = list.filter(r =>
+          r.pelapor.toLowerCase().includes(q) ||
+          r.email.toLowerCase().includes(q) ||
+          r.fasilitas.toLowerCase().includes(q) ||
+          r.uraian.toLowerCase().includes(q) ||
+          r.id.toLowerCase().includes(q)
+        );
+      }
+
+      document.getElementById('filterResultCount').textContent = `Menampilkan ${list.length} dari ${appState.reports.length} laporan`;
+
+      const container = document.getElementById('allReportsContainer');
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="rounded-3xl bg-m3-surfaceContainerLow p-8 text-center space-y-2 border border-m3-outlineVariant/30">
+            <span class="material-symbols-rounded text-4xl text-m3-onSurfaceVariant">search_off</span>
+            <p class="font-bold text-sm">Tidak ada laporan yang cocok</p>
+            <p class="text-xs text-m3-onSurfaceVariant">Coba ubah kata kunci pencarian atau pilih filter chip lainnya.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(r => createReportCardHTML(r)).join('');
+    }
+
+    function createReportCardHTML(r) {
+      const statusStyles = {
+        'Diproses': 'bg-[#FFB800]/20 text-[#7A5600] dark:text-[#FFD15C] border-[#FFB800]/45',
+        'Ditindaklanjuti': 'bg-[#2F3185]/12 text-[#2F3185] dark:text-[#B8BCFF] border-[#2F3185]/30',
+        'Selesai': 'bg-[#1CBDB3]/18 text-[#0C756E] dark:text-[#4CE0D6] border-[#1CBDB3]/40'
+      };
+      const badgeClass = statusStyles[r.status] || statusStyles['Diproses'];
+      const initials = (r.pelapor || 'U').substring(0, 2).toUpperCase();
+      const cleanWa = (r.whatsapp || '').replace(/\s+/g, '');
+
+      return `
+        <article onclick="openDetailSheet('${r.id}')" class="m3-press cursor-pointer rounded-3xl bg-m3-surfaceContainerLow hover:bg-m3-surfaceContainer border border-m3-outlineVariant/60 p-4 sm:p-5 transition-colors space-y-3 shadow-m3-1">
+          <!-- Header Kartu -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-full bg-[#2F3185] text-white ring-2 ring-[#FFB800]/60 font-extrabold text-xs flex items-center justify-center shrink-0">
+                ${initials}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm truncate">${escapeHtml(r.pelapor)}</span>
+                  <span class="text-[11px] font-semibold text-m3-onSurfaceVariant">• ${r.id}</span>
+                </div>
+                <p class="text-[11px] text-m3-onSurfaceVariant truncate">${escapeHtml(r.email)} • ${escapeHtml(r.timestamp)}</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold border shrink-0 ${badgeClass}">
+              ${escapeHtml(r.status)}
+            </span>
+          </div>
+
+          <!-- Tag Fasilitas -->
+          <div class="flex flex-wrap gap-1.5">
+            ${r.tags.map(t => `
+              <span class="px-2.5 py-0.5 rounded-lg bg-m3-surfaceContainer text-m3-onSurfaceVariant border border-m3-outlineVariant/40 text-[11px] font-semibold">
+                ${escapeHtml(t)}
+              </span>
+            `).join('')}
+          </div>
+
+          <!-- Kutipan Uraian -->
+          <p class="text-xs sm:text-sm text-m3-onSurface leading-relaxed line-clamp-3 whitespace-pre-line">${escapeHtml(r.uraian)}</p>
+
+          <!-- Footer Kartu -->
+          <div class="pt-2 border-t border-m3-outlineVariant/40 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1 text-xs text-m3-onSurfaceVariant">
+              <span class="material-symbols-rounded text-base ${r.rating > 0 ? 'filled text-[#FFB800]' : ''}">star</span>
+              <span class="font-semibold">${r.rating > 0 ? r.rating + '/5' : 'Belum dinilai'}</span>
+            </div>
+
+            <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+              ${cleanWa ? `
+                <a href="${escapeHtml(cleanWa)}" target="_blank" rel="noopener noreferrer" class="m3-press inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#1CBDB3]/15 text-[#0E7C75] dark:text-[#4CE0D6] text-xs font-bold">
+                  <span class="material-symbols-rounded text-base">chat</span>
+                  <span>WA</span>
+                </a>
+              ` : ''}
+              <button onclick="openDetailSheet('${r.id}')" class="m3-press inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#2F3185] text-white text-xs font-bold">
+                <span>Detail</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderActionChecklist() {
+      const container = document.getElementById('actionChecklistContainer');
+      container.innerHTML = appState.checklist.map(item => {
+        const prioBadge = item.priority === 'Mendesak'
+          ? 'bg-rose-500/15 text-rose-700 dark:text-rose-300'
+          : item.priority === 'Tinggi'
+            ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
+            : 'bg-sky-500/15 text-sky-700 dark:text-sky-300';
+
+        return `
+          <div onclick="toggleChecklistItem('${item.id}')" class="m3-press cursor-pointer rounded-3xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 p-4 sm:p-5 flex items-start gap-3.5 transition-opacity ${item.done ? 'opacity-65' : ''}">
+            <button type="button" class="mt-0.5 w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 transition-colors ${
+              item.done
+                ? 'bg-m3-primary border-m3-primary text-m3-onPrimary'
+                : 'border-m3-outline'
+            }">
+              ${item.done ? '<span class="material-symbols-rounded text-base font-bold">check</span>' : ''}
+            </button>
+            <div class="flex-1 space-y-1.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h4 class="font-bold text-sm sm:text-base ${item.done ? 'line-through' : ''}">${escapeHtml(item.title)}</h4>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${prioBadge}">${item.priority}</span>
+              </div>
+              <p class="text-xs text-m3-onSurfaceVariant leading-relaxed">${escapeHtml(item.desc)}</p>
+              <div class="flex items-center gap-1.5 pt-1">
+                <span class="text-[11px] text-m3-onSurfaceVariant">Terkait tiket:</span>
+                ${item.relatedIds.map(tid => `<span class="px-2 py-0.5 rounded-md bg-m3-surfaceContainerHigh text-[10px] font-bold">${tid}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleChecklistItem(id) {
+      const idx = appState.checklist.findIndex(c => c.id === id);
+      if (idx !== -1) {
+        appState.checklist[idx].done = !appState.checklist[idx].done;
+        saveAppData();
+        renderActionChecklist();
+        showSnackbar(appState.checklist[idx].done ? 'Tindak lanjut ditandai selesai' : 'Tindak lanjut dibuka kembali', 'fact_check');
+      }
+    }
+
+    /**
+     * 6. FILTER, PENCARIAN & SORTING
+     */
+    function setFilter(filterName) {
+      appState.activeFilter = filterName;
+      renderFilterChips();
+      renderAllReports();
+    }
+
+    function jumpToFilteredReports(filterName) {
+      appState.activeFilter = filterName;
+      switchTab('laporan');
+      renderFilterChips();
+      renderAllReports();
+    }
+
+    function handleSearch(val) {
+      appState.searchQuery = val;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (val.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderAllReports();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      handleSearch('');
+    }
+
+    function sortReportsToggle() {
+      appState.sortNewest = !appState.sortNewest;
+      document.getElementById('sortOrderLabel').textContent = appState.sortNewest ? 'Terbaru' : 'Terlama';
+      renderAllReports();
+    }
+
+    /**
+     * 7. ANDROID BOTTOM SHEET DETAIL & UPDATE TIKET
+     */
+    function openDetailSheet(reportId) {
+      const report = appState.reports.find(r => r.id === reportId);
+      if (!report) return;
+
+      document.getElementById('sheetTicketId').textContent = report.id;
+      document.getElementById('sheetTimestamp').textContent = report.timestamp;
+
+      const cleanWa = (report.whatsapp || '').replace(/\s+/g, '');
+      const statuses = ['Diproses', 'Ditindaklanjuti', 'Selesai'];
+
+      document.getElementById('detailSheetBody').innerHTML = `
+        <!-- Info Pelapor -->
+        <div class="p-3.5 rounded-2xl bg-m3-surfaceContainer flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-xs text-m3-onSurfaceVariant">Pelapor (${escapeHtml(report.kategori)})</div>
+            <div class="font-bold text-sm truncate">${escapeHtml(report.pelapor)}</div>
+            <div class="text-xs text-m3-onSurfaceVariant truncate">${escapeHtml(report.email)}</div>
+          </div>
+          ${cleanWa ? `
+            <a href="${escapeHtml(cleanWa)}" target="_blank" rel="noopener noreferrer" class="m3-press shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-emerald-600 text-white font-bold text-xs shadow-m3-1">
+              <span class="material-symbols-rounded text-lg">chat</span>
+              <span>Chat WhatsApp</span>
+            </a>
+          ` : ''}
+        </div>
+
+        <!-- Fasilitas Dilaporkan -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-m3-onSurfaceVariant">Fasilitas Dipilih:</label>
+          <p class="text-xs font-semibold text-m3-primary bg-m3-primaryContainer/40 px-3.5 py-2.5 rounded-2xl">
+            ${escapeHtml(report.fasilitas)}
+          </p>
+        </div>
+
+        <!-- Uraian Lengkap -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-m3-onSurfaceVariant">Uraian Lengkap Aspirasi / Keluhan:</label>
+          <div class="p-4 rounded-2xl bg-m3-surfaceContainerLow border border-m3-outlineVariant/40 text-xs sm:text-sm leading-relaxed whitespace-pre-line max-h-60 overflow-y-auto">
+            ${escapeHtml(report.uraian)}
+          </div>
+        </div>
+
+        <!-- Segmented Button Status (Material 3) -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-m3-onSurfaceVariant">Perbarui Status Penanganan:</label>
+          <div class="grid grid-cols-3 gap-2">
+            ${statuses.map(st => {
+              const isSelected = report.status === st;
+              return `
+                <button type="button" onclick="updateReportStatus('${report.id}', '${st}')" class="m3-press py-2.5 px-2 rounded-2xl text-xs font-bold border transition-all ${
+                  isSelected
+                    ? 'bg-m3-primary text-m3-onPrimary border-m3-primary shadow-m3-1'
+                    : 'bg-m3-surfaceContainer text-m3-onSurfaceVariant border-m3-outlineVariant/50'
+                }">
+                  ${st}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Rating Penilaian -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-m3-onSurfaceVariant">Rating Penilaian Kepuasan (0 - 5):</label>
+          <div class="flex items-center gap-2">
+            ${[1, 2, 3, 4, 5].map(star => `
+              <button type="button" onclick="updateReportRating('${report.id}', ${star})" class="m3-press w-10 h-10 rounded-2xl bg-m3-surfaceContainer flex items-center justify-center">
+                <span class="material-symbols-rounded text-2xl ${report.rating >= star ? 'filled text-amber-500' : 'text-m3-onSurfaceVariant'}">star</span>
+              </button>
+            `).join('')}
+            <span class="text-xs font-bold ml-2 text-m3-onSurfaceVariant">${report.rating} / 5</span>
+          </div>
+        </div>
+      `;
+
+      const backdrop = document.getElementById('detailSheetBackdrop');
+      const panel = document.getElementById('detailSheetPanel');
+      backdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-y-full', 'sm:translate-y-4');
+      });
+    }
+
+    function closeDetailSheet(e) {
+      if (e && e.target !== e.currentTarget) return;
+      const backdrop = document.getElementById('detailSheetBackdrop');
+      const panel = document.getElementById('detailSheetPanel');
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-y-full', 'sm:translate-y-4');
+      setTimeout(() => backdrop.classList.add('hidden'), 250);
+    }
+
+    function updateReportStatus(id, newStatus) {
+      const idx = appState.reports.findIndex(r => r.id === id);
+      if (idx !== -1) {
+        appState.reports[idx].status = newStatus;
+        saveAppData();
+        renderAll();
+        openDetailSheet(id);
+        pushUpdateToGasWebhook({
+          action: 'update',
+          timestamp: appState.reports[idx].timestamp,
+          pelapor: appState.reports[idx].pelapor,
+          status: newStatus
+        });
+        showSnackbar(`Status ${id} diubah menjadi "${newStatus}"`, 'check_circle');
+      }
+    }
+
+    function updateReportRating(id, rating) {
+      const idx = appState.reports.findIndex(r => r.id === id);
+      if (idx !== -1) {
+        appState.reports[idx].rating = rating;
+        saveAppData();
+        renderAll();
+        openDetailSheet(id);
+        pushUpdateToGasWebhook({
+          action: 'update',
+          timestamp: appState.reports[idx].timestamp,
+          pelapor: appState.reports[idx].pelapor,
+          rating: rating
+        });
+        showSnackbar(`Rating ${id} diperbarui: ${rating} bintang`, 'star');
+      }
+    }
+
+    /**
+     * 8. UTILITAS SALIN REKAP & RESET
+     */
+    function copySummaryToClipboard() {
+      const lines = [
+        '*REKAP STATUS SALAM PHNS - UMS*',
+        `Total Laporan: ${appState.reports.length}`,
+        '-----------------------------------'
+      ];
+      appState.reports.forEach(r => {
+        lines.push(`• *[${r.id}] ${r.pelapor}* (${r.status})`);
+        lines.push(`  Fasilitas: ${r.fasilitas}`);
+        lines.push(`  Ringkasan: ${r.uraian.split('\n')[0].substring(0, 90)}...`);
+      });
+
+      const textToCopy = lines.join('\n');
+      const tempArea = document.createElement('textarea');
+      tempArea.value = textToCopy;
+      tempArea.style.position = 'fixed';
+      tempArea.style.opacity = '0';
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        showSnackbar('Rekap laporan disalin ke papan klip!', 'content_copy');
+      } catch (err) {
+        showSnackbar('Gagal menyalin teks', 'error');
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    function resetDefaultData() {
+      appState.reports = JSON.parse(JSON.stringify(INITIAL_REPORTS));
+      appState.checklist = JSON.parse(JSON.stringify(INITIAL_CHECKLIST));
+      saveAppData();
+      renderAll();
+      showSnackbar('Data dikembalikan ke rekap awal Google Sheets', 'restart_alt');
+    }
+
+    let snackbarTimeout;
+    function showSnackbar(message, icon = 'check_circle') {
+      const sb = document.getElementById('androidSnackbar');
+      document.getElementById('snackbarText').textContent = message;
+      document.getElementById('snackbarIcon').textContent = icon;
+      sb.classList.remove('opacity-0', 'translate-y-4');
+      clearTimeout(snackbarTimeout);
+      snackbarTimeout = setTimeout(() => {
+        sb.classList.add('opacity-0', 'translate-y-4');
+      }, 3000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Jalankan inisialisasi saat DOM siap
+    window.addEventListener('DOMContentLoaded', () => {
+      initPWA();
+      loadAppData();
+      renderAll();
+      switchTab('beranda');
+      initRealtimeSync();
+      // Lakukan sinkronisasi awal secara senyap begitu aplikasi dibuka
+      syncFromGoogleSheet(true);
+    });
+  </script>
+</body>
+</html>
